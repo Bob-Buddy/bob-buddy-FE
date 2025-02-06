@@ -1,9 +1,10 @@
 import { FC } from 'react';
+import { Badge } from '@/components/ui/badge';
 
 const Home: FC = () => {
   return (
     <div>
-      <h1>홈페이지</h1>
+      <Badge>홈페이지</Badge>
     </div>
   );
 };
