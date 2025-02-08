@@ -9,7 +9,7 @@ const AuthLayout: FC = () => {
         <Link to="/">
           <Button variant={'ghost'}>홈</Button>
         </Link>
-        <Link to="/auth/signin">
+        <Link to="/auth/login">
           <Button variant={'ghost'}>로그인</Button>
         </Link>
         <Link to="/auth/signup">

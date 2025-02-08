@@ -1,4 +1,4 @@
-import SignInPage from '../pages/auth/SignInPage';
+import LoginPage from '../pages/auth/LoginPage';
 import SignUpPage from '../pages/auth/SignUpPage';
 import AuthLayout from '../layout/auth-layout';
 
@@ -8,8 +8,8 @@ export const authRoutes = [
     element: <AuthLayout />,
     children: [
       {
-        path: 'signin',
-        element: <SignInPage />,
+        path: 'login',
+        element: <LoginPage />,
       },
       {
         path: 'signup',
