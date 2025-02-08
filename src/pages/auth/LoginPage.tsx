@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/store/useAuthStore';
+// import { authApi } from '@/lib/api/auth';
 
 interface InputContainerProp {
   label: string;
@@ -33,7 +34,7 @@ export default function LoginPage() {
   const onSubmit = async (values: LoginFormValues) => {
     setIsLoading(true);
     try {
-      const response = { token: 'token', user: { name: 'asdf', email: 'asdf@gmail.com' } };
+      const response = { token: 'token', user: { name: 'asdf', email: 'asdf@gmail.com' } }; // await authApi.login(values);
 
       sessionStorage.setItem('token', response.token);
 
