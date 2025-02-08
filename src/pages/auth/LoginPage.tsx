@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useNavigate } from 'react-router-dom';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { useAuthStore } from '@/store/useAuthStore';
 
 interface InputContainerProp {
   label: string;
@@ -18,6 +19,8 @@ interface InputContainerProp {
 export default function LoginPage() {
   const navigate = useNavigate();
   const [isAutoLogin, setIsAutoLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const login = useAuthStore((state) => state.login);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -28,8 +31,29 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values: LoginFormValues) => {
-    console.log(values);
-    navigate('/');
+    setIsLoading(true);
+    try {
+      const response = { token: 'token', user: { name: 'asdf', email: 'asdf@gmail.com' } };
+
+      sessionStorage.setItem('token', response.token);
+
+      // 유저 정보와 로그인 상태 업데이트
+      login(response.user);
+
+      console.log('로그인 성공:', values);
+      console.log('자동로그인여부', isAutoLogin);
+
+      if (isAutoLogin) {
+        // 자동로그인의 경우 localStorage에 저장
+        localStorage.setItem('token', response.token);
+      }
+
+      navigate('/');
+    } catch (error) {
+      console.error('로그인 실패:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const InputContainer = ({ label, children }: InputContainerProp) => {
@@ -50,7 +74,7 @@ export default function LoginPage() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            {/* email 입력력 */}
+            {/* email 입력 */}
             <FormField
               control={form.control}
               name="email"
@@ -77,7 +101,7 @@ export default function LoginPage() {
               <Label htmlFor="auto-login">자동로그인</Label>
             </div>
 
-            <Button type="submit">로그인</Button>
+            <Button type="submit">{isLoading ? '로그인 중...' : '로그인'}</Button>
           </form>
         </Form>
       </CardContent>
