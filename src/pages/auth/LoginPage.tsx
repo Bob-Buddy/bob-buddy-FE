@@ -1,21 +1,17 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormValues } from '@/schemas/auth.schma';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormField } from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/store/useAuthStore';
+import InputContainer from '@/components/InputContainer';
 // import { authApi } from '@/lib/api/auth';
-
-interface InputContainerProp {
-  label: string;
-  children: ReactNode;
-}
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -55,16 +51,6 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const InputContainer = ({ label, children }: InputContainerProp) => {
-    return (
-      <FormItem>
-        <FormLabel>{label}</FormLabel>
-        <FormControl>{children}</FormControl>
-        <FormMessage />
-      </FormItem>
-    );
   };
 
   return (
