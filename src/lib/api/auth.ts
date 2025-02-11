@@ -1,6 +1,6 @@
 import { User } from '@/types/auth';
 import { apiClient } from './client';
-import type { LoginFormValues } from '@/schemas/auth.schma';
+import type { LoginFormValues } from '@/schemas/auth.schema';
 
 interface LoginResponse {
   token: string;
