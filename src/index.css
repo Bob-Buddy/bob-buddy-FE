@@ -15,6 +15,13 @@ body {
   min-height: 100vh;
 }
 
+#calendar-container [data-radix-popper-content-wrapper] {
+  transform: translate(-2%, -114%) !important;
+  position: absolute !important;
+  left: unset !important;
+  top: unset !important;
+}
+
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(224 71.4% 4.1%);

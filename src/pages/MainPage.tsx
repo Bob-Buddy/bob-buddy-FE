@@ -1,3 +1,4 @@
+import StudyForm from '@/components/FloatingFormButton';
 import StudyCarousel from '@/components/StudCarousel';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -48,6 +49,7 @@ const Home: FC = () => {
       <div>
         <UserStudyCarousel />
         <AllStudyCarousel />
+        <StudyForm />
       </div>
     );
   };
