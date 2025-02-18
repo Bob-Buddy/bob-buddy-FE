@@ -1,4 +1,4 @@
-import StudyForm from '@/components/FloatingFormButton';
+import StudyForm from '@/components/StudyForm';
 import StudyCarousel from '@/components/StudCarousel';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/store/useAuthStore';
