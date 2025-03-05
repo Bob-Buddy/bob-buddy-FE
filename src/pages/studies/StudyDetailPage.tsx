@@ -2,8 +2,9 @@ import { Study } from '@/types/study';
 import { FC, useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Button } from '@/components/ui/button';
-import { Camera, Home, Pencil, Pin } from 'lucide-react';
+import { Camera, Home, Pencil, Pin, Trophy } from 'lucide-react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import ChartComponent from '@/components/ChartComponent';
 
 const studySample: Study = {
   title: '스터디A',
@@ -114,8 +115,8 @@ const StudyDetailPage: FC = () => {
 
   const DashBoard = () => {
     return (
-      <div className="flex flex-col w-200 bg-sky-50 p-4 rounded-sm overflow-auto">
-        <section className="w-full h-full">
+      <div className="flex flex-col w-200 bg-sky-50 p-4 rounded-sm overflow-auto gap-6">
+        <section className="w-full">
           <Card className="p-4">
             <CardTitle className="flex gap-1 font-bold">
               <Pin size={18} />
@@ -132,6 +133,41 @@ const StudyDetailPage: FC = () => {
             </CardContent>
           </Card>
         </section>
+
+        <section>
+          <Card className="p-4">
+            <CardTitle className="flex gap-1 font-bold">
+              <Trophy size={18} />
+              리더보드
+            </CardTitle>
+            <CardContent className="divide-y-1 p-2">
+              <Chart />
+            </CardContent>
+          </Card>
+        </section>
+      </div>
+    );
+  };
+
+  const Chart = () => {
+    const crewData = crewList?.reduce(
+      (acc, item) => {
+        (Object.keys(item) as Array<keyof Crew>).forEach((key) => {
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+
+          acc[key].push(item[key]);
+        });
+
+        return acc;
+      },
+      {} as Record<keyof Crew, (string | number)[]>
+    ) ?? { id: [], name: [], level: [] };
+
+    return (
+      <div>
+        <ChartComponent labels={crewData.name as string[]} datasets={crewData.level as number[]} title="레벨" />
       </div>
     );
   };
