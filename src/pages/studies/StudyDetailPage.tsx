@@ -2,7 +2,7 @@ import { Study } from '@/types/study';
 import { FC, useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Button } from '@/components/ui/button';
-import { Camera, Home, Pencil, Pin, Trophy } from 'lucide-react';
+import { Camera, Home, Notebook, Pencil, Pin, Trophy } from 'lucide-react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import ChartComponent from '@/components/ChartComponent';
 
@@ -42,21 +42,39 @@ const noticeSample: Notice[] = [
   { title: '스터디원 모집 완료', content: '정원이 모두 채워졌습니다', createAt: dayjs('2025-02-10') },
 ];
 
+interface Problem {
+  id: number;
+  title: string;
+  solutionCount: number;
+  createAt: Dayjs;
+}
+
+const problemSample: Problem[] = [
+  { id: 1, title: '[백준] 123', solutionCount: 2, createAt: dayjs('2025-02-28') },
+  { id: 2, title: '[프로그래머스] 111', solutionCount: 0, createAt: dayjs('2025-03-03') },
+];
+
 const StudyDetailPage: FC = () => {
   const [studyDetail, setStudyDetail] = useState<Study | null>();
   const [crewList, setCrewList] = useState<Crew[] | null>();
   const [noticeList, setNoticeList] = useState<Notice[] | null>();
+  const [problemList, setProblemList] = useState<Problem[] | null>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         setIsLoading(true);
-        const [firstResponse, secondResponse] = await Promise.all([getStudyDetail(), getNoticeList()]);
+        const [firstResponse, secondResponse, thirdResponse] = await Promise.all([
+          getStudyDetail(),
+          getNoticeList(),
+          getProblemList(),
+        ]);
 
         setStudyDetail(firstResponse.study);
         setCrewList(firstResponse.crew);
         setNoticeList(secondResponse);
+        setProblemList(thirdResponse);
       } catch (error) {
         console.error('Fail-fetch data: ', error);
       } finally {
@@ -75,6 +93,11 @@ const StudyDetailPage: FC = () => {
   const getNoticeList = async () => {
     const response = { notice: noticeSample };
     return response.notice;
+  };
+
+  const getProblemList = async () => {
+    const response = { problem: problemSample };
+    return response.problem;
   };
 
   const SideMenu = () => {
@@ -142,6 +165,33 @@ const StudyDetailPage: FC = () => {
             </CardTitle>
             <CardContent className="divide-y-1 p-2">
               <Chart />
+            </CardContent>
+          </Card>
+        </section>
+
+        <section>
+          <Card className="p-4">
+            <CardTitle className="flex justify-between">
+              <div className="flex gap-1 font-bold">
+                <Notebook size={18} />
+                문제 {'>'}
+              </div>
+              <div>
+                <Button>문제 등록</Button>
+              </div>
+            </CardTitle>
+            <CardContent className="divide-y-1 p-2">
+              {problemList?.map((notice) => (
+                <div className="text-left py-2">
+                  <div className="font-bold">{notice.title}</div>
+                  {notice.solutionCount > 0 ? (
+                    <div>총 {notice.solutionCount}개의 코드가 등록되어있습니다.</div>
+                  ) : (
+                    <div>아직 등록된 코드가 없습니다. 가장 먼저 코드를 등록해보세요.</div>
+                  )}
+                  <div className="text-right">{notice.createAt.toISOString()}</div>
+                </div>
+              ))}
             </CardContent>
           </Card>
         </section>
